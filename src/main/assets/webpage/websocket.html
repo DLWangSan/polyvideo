@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<h3>WebSocket 测试</h3>
+<p id="result"></p>
+</body>
+
+<script type="text/javascript">
+    var my_websocket = new WebSocket("ws://127.0.0.1:55555");
+    var result = document.getElementById("result");
+
+    if(!my_websocket){
+        result.innerHTML += "无法创建websocket实例<br>";
+        window.console.log("websocket can not be created!");
+    }else{
+        window.console.log("websocket create success!");
+    }
+
+    my_websocket.onerror = function(){
+        result.innerHTML+="websocket连接失败<br>";
+    }
+    my_websocket.onclose = function(){
+        result.innerHTML+="websocket 关闭<br>";
+    }
+
+    my_websocket.onmessage = function(event){
+        result.innerHTML+="收到数据:"+event.data+" <br>";
+    }
+</script>
+</html>

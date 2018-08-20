@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, maximum-scale=1, minimum-scale=1, user-scale=1">
+    <title></title>
+    <style type="text/css" rel="stylesheet">
+        .line{
+            width:100%;
+            background: #000000;
+            height: 1px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+        <video style="width:100%; height: auto;" controls>
+           <source src=http://125.64.133.74/data9/userfiles/video02/2014/12/11/2796948-280-068-1452.mp4 >
+        </video>
+        <div style="width:100%;height: 25px;"></div>
+        <button onclick="click_x5()"  style="width:50%;height: 50px; float: left"> x5模式全屏</button>
+        <button onclick="click_normal()"  style="width:50%;height: 50px;"> 普通模式全屏</button>
+        <div class="line"></div>
+        <button onclick="click_LiteWnd()"  style="width:50%;height: 50px; float: left"> 小窗模式</button>
+        <button onclick="click_normal()"  style="width:50%;height: 50px;"> 关闭小窗模式</button>
+        <div class="line"></div>
+        <button onclick="click_PageVideo()"  style="width:50%;height: 50px; float: left"> 页面内全屏</button>
+        <button onclick="click_normal()"  style="width:50%;height: 50px;"> 关闭页面内全屏</button>
+</body>
+
+
+<script type="text/javascript" >
+    function click_x5 (){
+       Android.onX5ButtonClicked();
+        location.reload(false);
+
+    }
+    function click_normal(){
+        Android.onCustomButtonClicked();
+        location.reload(false);
+    }
+    function click_LiteWnd(){
+        Android.onLiteWndButtonClicked();
+        location.reload(false);
+    }
+    function click_PageVideo(){
+        Android.onPageVideoClicked();
+        location.reload(false);
+    }
+</script>
+</html>

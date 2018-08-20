@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:checkableBehavior="single">
+    <group android:id="@+id/g1">
+        <item
+            android:id="@+id/alibaba"
+            android:icon="@mipmap/alibaba"
+            android:checkable="false"
+            android:title="    支付宝捐赠"/>
+
+
+        <item
+            android:id="@+id/wechat"
+            android:icon="@drawable/wechat"
+
+            android:title="    微信捐赠"/>
+        <item
+            android:id="@+id/qq"
+            android:icon="@drawable/qq"
+            android:title="    QQ捐赠"/>
+    </group>
+    <group android:id="@+id/g2">
+        <item
+            android:id="@+id/join"
+            android:icon="@drawable/join"
+            android:title="    加入我们"/>
+        <item
+            android:id="@+id/developer"
+            android:icon="@drawable/developer"
+            android:title="    关于作者"/>
+    </group>
+
+</menu>

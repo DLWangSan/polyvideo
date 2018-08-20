@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">聚合视频</string>
+    <string name="action_settings">设置</string>
+    <string name="title_activity_mini_qb">MiniQBActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="tag"> (X5内核功能演示)</string>
+    <string name="tip">普通接入直接参考“APPApplication” “BrowserActivity” “X5WebView”中相关实现即可</string>
+
+    <string-array name="index_titles">
+        <item>爱奇艺</item>
+        <item>腾讯视频</item>
+        <item>优酷</item>
+        <item>芒果TV</item>
+        <item>搜狐视频</item>
+        <item>PPTV聚力</item>
+    </string-array>
+
+</resources>

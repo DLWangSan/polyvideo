@@ -1,0 +1,109 @@
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/settings_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff">
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include layout="@layout/title"/>
+
+        <TextView
+            android:id="@+id/about"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="关于"
+            android:textSize="20dp"
+            android:textColor="#FF4081"
+            android:background="@drawable/textview_bottom_border"
+            android:layout_marginLeft="15dp">
+        </TextView>
+
+        <TextView
+
+            android:id="@+id/developer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="作者"
+            android:textSize="25dp"
+            android:layout_marginLeft="15dp"/>
+        <TextView
+            android:id="@+id/dlws"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="DLWangSan"
+            android:textSize="15dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/textview_bottom_border"/>
+        <TextView
+            android:id="@+id/donate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="捐赠"
+            android:textSize="20dp"
+            android:textColor="#FF4081"
+            android:background="@drawable/textview_bottom_border"
+            android:layout_marginLeft="15dp">
+        </TextView>
+
+        <TextView
+            android:id="@+id/alibaba"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:text="支付宝捐赠"
+            android:textSize="25dp"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/textview_bottom_border"/>
+
+        <TextView
+            android:id="@+id/wechat"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:text="微信捐赠"
+            android:textSize="25dp"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/textview_bottom_border"/>
+
+        <TextView
+            android:id="@+id/qqdonate"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:text="QQ捐赠"
+            android:textSize="25dp"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/textview_bottom_border"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="交流"
+            android:textSize="20dp"
+            android:textColor="#FF4081"
+            android:background="@drawable/textview_bottom_border"
+            android:layout_marginLeft="15dp"/>
+
+        <TextView
+            android:id="@+id/joinqq"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:text="加入QQ群"
+            android:textSize="25dp"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/textview_bottom_border"/>
+    </LinearLayout>
+
+    <!--<ListView-->
+        <!--android:id="@+id/list_view"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content">-->
+    <!--</ListView>-->
+
+</FrameLayout>
