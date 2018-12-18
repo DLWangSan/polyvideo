@@ -55,6 +55,9 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha7'
 
     compile 'com.android.support:design:23.2.0'
+    compile 'com.squareup.okhttp3:okhttp:3.10.0'
+    compile 'com.google.code.gson:gson:2.8.2'
+
 
 }
 

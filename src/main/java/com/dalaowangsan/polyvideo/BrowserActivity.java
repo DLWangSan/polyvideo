@@ -42,6 +42,8 @@ import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
 import com.tencent.smtt.utils.TbsLog;
 
+import static com.dalaowangsan.polyvideo.MainActivity.interface_1;
+
 public class BrowserActivity extends Activity {
 
 	private X5WebView mWebView;
@@ -49,9 +51,9 @@ public class BrowserActivity extends Activity {
 	public String mHomeUrl;
 	public Button play;
 
-//	private static final String mHomeUrl = "http://m.v.qq.com/";
+
 	private static final String TAG = "SdkDemo";
-	private static final String vip="http://kx28.com/vip/?url=";
+	private static final String vip=interface_1;
 	private boolean mNeedTestPage = false;
 
 	private final int disable = 120;

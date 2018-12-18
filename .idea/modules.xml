@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/PolyVideo.iml" filepath="$PROJECT_DIR$/PolyVideo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/polyvideo-master.iml" filepath="$PROJECT_DIR$/polyvideo-master.iml" />
     </modules>
   </component>
 </project>

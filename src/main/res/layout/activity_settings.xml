@@ -60,15 +60,15 @@
             android:layout_marginLeft="15dp"
             android:background="@drawable/textview_bottom_border"/>
 
-        <TextView
-            android:id="@+id/wechat"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="center_vertical"
-            android:text="微信捐赠"
-            android:textSize="25dp"
-            android:layout_marginLeft="15dp"
-            android:background="@drawable/textview_bottom_border"/>
+        <!--<TextView-->
+            <!--android:id="@+id/wechat"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:text="支付宝领红包（推荐）"-->
+            <!--android:textSize="25dp"-->
+            <!--android:layout_marginLeft="15dp"-->
+            <!--android:background="@drawable/textview_bottom_border"/>-->
 
         <TextView
             android:id="@+id/qqdonate"

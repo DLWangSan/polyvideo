@@ -2,6 +2,7 @@ package com.dalaowangsan.polyvideo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -29,6 +30,14 @@ import android.widget.GridView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
+
 public class MainActivity extends Activity {
 
 	private static String[] titles = null;
@@ -47,6 +56,15 @@ public class MainActivity extends Activity {
 	private static final int MANGGO = 3;
 	private static final int SOUHU = 4;
 	private static final int PPTV = 5;
+	private static final int MONEY = 6;
+	private static final int LEFT = 7;
+
+	public static String interface_1;
+    public static String interface_2;
+    public static String news;
+    public static String version;
+    public static String money_num;
+    public static String money_url;
 
 	// /////////////////////////////////////////////////////////////////////////////////////////////
 	// for view init
@@ -61,7 +79,7 @@ public class MainActivity extends Activity {
 		//获取剪贴板管理器：
 		ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
 		// 创建普通字符型ClipData
-		ClipData mClipData = ClipData.newPlainText("Label", "J7B9Tq8379");
+		ClipData mClipData = ClipData.newPlainText("Label", money_num);
 		// 将ClipData内容放到系统剪贴板里。
 		cm.setPrimaryClip(mClipData);
 	}
@@ -71,10 +89,22 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		copyMoney();
+
 		setContentView(R.layout.activity_main_advanced);
-		copyMoney();
+
 		firstRun();
+
+		try {
+			init();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+//		Toast.makeText(this, version, Toast.LENGTH_SHORT).show();
+
+//		//状态栏透明
+//		UltimateBar ultimateBar = new UltimateBar(this);
+//		ultimateBar.setImmersionBar();
 
 		drawerLayout = (DrawerLayout) findViewById(R.id.main_layout);
 		navigationView = (NavigationView) findViewById(R.id.navigation_view);
@@ -130,11 +160,25 @@ public class MainActivity extends Activity {
 						break;
 					case R.id.wechat:
 						try {
-							//利用Intent打开微信
-							Uri uri = Uri.parse("weixin://");
-							Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-							Toast.makeText(getBaseContext(), "能力有限，没写出来，只能跳转到这里。欢迎大神指点", Toast.LENGTH_LONG).show();
-							startActivity(intent);
+							AlertDialog.Builder dialog1 = new AlertDialog.Builder(MainActivity.this);
+							dialog1.setTitle("聚合视频");
+							dialog1.setPositiveButton("现在领红包", new AlertDialog.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									copyMoney();
+									Intent intent = new Intent();
+//									intent.setAction("android.intent.action.VIEW");
+									intent.setData(Uri.parse("alipayqr://platformapi/startapp"));
+									startActivity(intent);
+									Toast.makeText(MainActivity.this, "点击最上方搜索框，长按，选择“粘贴", Toast.LENGTH_LONG).show();
+								}
+							});
+
+							dialog1.setMessage("点击“现在领红包”后，会跳转到支付宝。" +
+									"我们已经为您复制好红包码，直接在搜索框粘贴，就能领取支付宝红包。" +
+									"谢谢您的支持！");
+
+							dialog1.create().show();
 						} catch (Exception e) {
 							Toast.makeText(getBaseContext(), "无法跳转到微信，请检查您是否安装了微信！", Toast.LENGTH_SHORT).show();
 						}
@@ -161,17 +205,7 @@ public class MainActivity extends Activity {
 								}).create();
 
 						dialog.show();
-//						try {
-//
-//
-//							String urlQQ ="https://i.qianbao.qq.com/wallet/sqrcode.htm?m=tenpay&f=wallet&u=1329864438&a=1&n=%E2%9C%8E%EF%B9%8F%E4%B8%8D%E5%8F%AF%E9%A2%84%E" +
-//									"8%A7%81&ac=6CCECD41655AD88DBC75962135704FB8BD2828AE0C889B952F014B811F1BA432";
-//							startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(urlQQ)));
-//
-//							Toast.makeText(getBaseContext(),"能力有限，没写出来，只能跳转到这里。欢迎大神指点",Toast.LENGTH_LONG).show();
-//						} catch (Exception e) {
-//							Toast.makeText(getBaseContext(), "无法跳转到微信，请检查您是否安装了微信！", Toast.LENGTH_SHORT).show();
-//						}
+
 						break;
 					case R.id.join:
 						Toast.makeText(getBaseContext(), "请选择QQ，加入官方QQ群", Toast.LENGTH_LONG).show();
@@ -221,7 +255,7 @@ public class MainActivity extends Activity {
 
 		titles = getResources().getStringArray(R.array.index_titles);
 		int[] iconResourse = {R.drawable.aqiyi, R.drawable.tecent,
-				R.drawable.youku, R.drawable.manggo, R.drawable.sohu, R.drawable.pptv};
+				R.drawable.youku, R.drawable.manggo, R.drawable.sohu, R.drawable.pptv,R.drawable.money,R.drawable.left};
 
 		HashMap<String, Object> item = null;
 		// HashMap<String, ImageView> block = null;
@@ -295,6 +329,54 @@ public class MainActivity extends Activity {
 							startActivityForResult(intent, 5);
 							break;
 
+
+
+						case MONEY:
+
+							AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+							dialog.setTitle("聚合视频");
+
+							dialog.setPositiveButton("现在领红包", new AlertDialog.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									copyMoney();
+									Intent intent = new Intent();
+//									intent.setAction("android.intent.action.VIEW");
+									intent.setData(Uri.parse("alipayqr://platformapi/startapp"));
+									startActivity(intent);
+									Toast.makeText(MainActivity.this, "点击最上方搜索框，长按，选择“粘贴", Toast.LENGTH_LONG).show();
+								}
+							});
+
+							dialog.setMessage("点击“现在领红包”后，会跳转到支付宝。" +
+									"我们已经为您复制好红包码，直接在搜索框粘贴，就能领取支付宝红包。" +
+									"谢谢您的支持！");
+
+							dialog.create().show();
+							break;
+
+						case LEFT:
+
+							AlertDialog.Builder dialog1 = new AlertDialog.Builder(MainActivity.this);
+							dialog1.setTitle("聚合视频");
+
+							dialog1.setPositiveButton("现在领红包", new AlertDialog.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									copyMoney();
+									Intent intent = new Intent();
+//									intent.setAction("android.intent.action.VIEW");
+									intent.setData(Uri.parse("alipayqr://platformapi/startapp"));
+									startActivity(intent);
+									Toast.makeText(MainActivity.this, "点击最上方搜索框，长按，选择“粘贴", Toast.LENGTH_LONG).show();
+								}
+							});
+
+							dialog1.setMessage("点击“现在领红包”后，会跳转到支付宝。" +
+									"我们已经为您复制好红包码，直接在搜索框粘贴，就能领取支付宝红包。" +
+									"谢谢您的支持！");
+
+							dialog1.create().show();
 					}
 
 				}
@@ -325,30 +407,18 @@ public class MainActivity extends Activity {
 	}
 
 	private void tbsSuiteExit() {
-		copyMoney();
+
 		AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
 		dialog.setTitle("聚合视频");
-		dialog.setPositiveButton("确定退出", new AlertDialog.OnClickListener() {
+		dialog.setPositiveButton("我知道了，退出", new AlertDialog.OnClickListener() {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
-				copyMoney();
 				Process.killProcess(Process.myPid());
 			}
 		});
-		dialog.setNegativeButton("加群反馈", new AlertDialog.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						copyMoney();
-						Toast.makeText(MainActivity.this, "请选择QQ，加入官方QQ群", Toast.LENGTH_LONG).show();
-						String urlQQ = "http://qm.qq.com/cgi-bin/qm/qr?k=YT8TuNFOvmB-rOEa7_vB2a-tK1kwpbeW";
-						startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(urlQQ)));
-					}
 
-				}
-		);
-		dialog.setMessage("确定要退出吗？如果在使用过程中发现问题，请加群反馈");
+		dialog.setMessage("如果在使用过程中发现问题，请在葫芦侠、吾爱论坛、或QQ群反馈。");
 		dialog.create().show();
 	}
 
@@ -357,7 +427,7 @@ public class MainActivity extends Activity {
 		boolean isFirstRun=sharedPreferences.getBoolean("isFirstRun", true);
 		SharedPreferences.Editor editor=sharedPreferences.edit();
 		if(isFirstRun){
-			copyMoney();
+
 			AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
 			dialog.setTitle("聚合视频");
 			dialog.setNegativeButton("我知道了", new AlertDialog.OnClickListener() {
@@ -365,7 +435,6 @@ public class MainActivity extends Activity {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					// TODO Auto-generated method stub
-					copyMoney();
 				}
 			});
 			dialog.setMessage("检测到您是第一次使用。软件嵌入X5内核，" +
@@ -374,8 +443,105 @@ public class MainActivity extends Activity {
 			editor.putBoolean("isFirstRun", false);
 			editor.commit();
 		}else{
-			copyMoney();
+
 		}
+
+	}
+	protected void init() throws  InterruptedException{
+		Thread thread=new Thread(){
+			@Override
+			public void run() {
+				try {
+					OkHttpClient client = new OkHttpClient();
+					Request request = new Request.Builder()
+							.url("http://dlws.show.0552web.com/polyvideo/interface.json")
+							.build();
+					Response response = client.newCall(request).execute();
+					String responseData = response.body().string();
+					parseJSON(responseData);
+				}catch (Exception e){
+					e.printStackTrace();
+				}
+			}
+		};
+
+		thread.start();
+		thread.join(); //等待thread线程完成后再进行其他操作
+
+		if(version.equals("2.1"))
+		{
+			Toast.makeText(this, "已是最新版本", Toast.LENGTH_SHORT).show();
+		}else {
+			AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+			dialog.setTitle("聚合视频");
+			dialog.setPositiveButton("网盘更新", new AlertDialog.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					String urlQQ = "https://www.lanzous.com/b526376/";
+					startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(urlQQ)));
+
+					Process.killProcess(Process.myPid());
+				}
+			});
+			dialog.setNegativeButton("退出",new AlertDialog.OnClickListener(){
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					Process.killProcess(Process.myPid());
+				}
+			});
+			dialog.setMessage("旧版本已经失效，请下载最新版本使用！");
+			dialog.setCancelable(false);
+			dialog.create().show();
+		}
+
+		if (news.equals("这是一条公告")){
+		}else{
+			AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+			dialog.setTitle("公告");
+			dialog.setMessage(news);
+			dialog.setNegativeButton("我知道了",new AlertDialog.OnClickListener(){
+
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+				}
+			});
+			dialog.create().show();
+		}
+	}
+
+	protected void parseJSON(String responseData){
+
+        Gson gson = new Gson();
+        List<Poly> polyList = gson.fromJson(responseData, new TypeToken<List<Poly>>() {
+        }.getType());
+
+        for(Poly poly : polyList){
+            if(poly.getId().equals("i_1")){
+                interface_1 = poly.getRsc();
+                continue;
+            }
+            if(poly.getId().equals("i_2")){
+                interface_2 = poly.getRsc();
+                continue;
+            }
+            if(poly.getId().equals("news")){
+                news = poly.getRsc();
+                continue;
+            }
+
+			if(poly.getId().equals("version")){
+				version = poly.getRsc();
+				continue;
+			}
+			if(poly.getId().equals("money_num")){
+				money_num = poly.getRsc();
+				continue;
+			}
+			if(poly.getId().equals("money_url")){
+				money_url = poly.getRsc();
+			}
+        }
 
 	}
 }
